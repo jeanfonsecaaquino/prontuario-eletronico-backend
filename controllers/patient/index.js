@@ -1,5 +1,5 @@
 
-const { listAll } = require('../../services/patient')
+const { listAll, edit } = require('../../services/patient')
 
 /**
  * 
@@ -9,9 +9,23 @@ const { listAll } = require('../../services/patient')
  */
 const listPatient = async (req, res, next) =>{
     const data = await listAll.execute()
-    res.send(200, data)
+    res.status(200).send(data)
+}
+
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ */
+ const editPatient = async (req, res, next) =>{
+    const { id } = req.params;
+    const payload = req.body;
+    const data = await edit.execute(id, payload)
+    res.status(200).send(data)
 }
 
 module.exports = {
-    listPatient
+    listPatient,
+    editPatient
 }

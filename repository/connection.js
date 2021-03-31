@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const log = require('../util/log')
 
 const connection = mysql.createConnection({
 	host: "localhost",
@@ -14,12 +15,15 @@ const connection = mysql.createConnection({
  const getConnection = () => {
 	return new Promise((resolve, reject) => {
 		if (connection.state !== 'disconnected') {
+			log.info(`Connected at ${connection.config.host}`)
 			return resolve(connection)
 		}
 		connection.connect((error) => {
 			if (error) {
+				log.info(`Error on connect ${connection.config.host}`, error)
 				return reject(error)
 			}
+			log.info(`Connected at ${connection.config.host}`)
 			return resolve(connection)
 		})
 	})
@@ -34,8 +38,10 @@ const connection = mysql.createConnection({
 const search = async (search, model) => {
 	const currentConnection = await getConnection();
 	return new Promise((resolve, reject) => {
-		currentConnection.query(search, (error, results, fields) => {
+		log.info(`Executing query [${search}]`)
+		currentConnection.query(search, (error, results) => {
 			if (error) {
+				log.info(`Error on Executing query [${search}]`, error)
 				return reject(error)
 			}
 			return resolve(model.bind(results))
@@ -43,7 +49,29 @@ const search = async (search, model) => {
 	})
 }
 
+/**
+ * 
+ * @param {any} search 
+ * @param {any} model 
+ * @returns {Array<import('../model/patient').Patient>}
+ */
+ const update = async (id, data, model) => {
+	const currentConnection = await getConnection();
+	return new Promise((resolve, reject) => {
+		const { stringQuery, values} = model.bindUpdate(id, data)
+		log.info(`Executing query update [${search}]`)
+		currentConnection.query(stringQuery, values, (error) => {
+			if (error) {
+				log.info(`Error on Executing query [${search}]`, error)
+				return reject(error)
+			}
+			return resolve()
+		});
+	})
+}
+
 module.exports = {
 	getConnection,
-	search
+	search,
+	update
 }
