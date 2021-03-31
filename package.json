@@ -1,0 +1,25 @@
+{
+  "name": "prontuario-eletronico-backend",
+  "version": "1.0.0",
+  "description": "Back BFF para manipulacao de prontuarios eletronicos",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeanfonsecaaquino/prontuario-eletronico-backend.git"
+  },
+  "author": "Jean Aquino",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeanfonsecaaquino/prontuario-eletronico-backend/issues"
+  },
+  "homepage": "https://github.com/jeanfonsecaaquino/prontuario-eletronico-backend#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "log4js": "^6.3.0",
+    "mysql": "^2.18.1",
+    "require-directory": "^2.1.1"
+  }
+}
