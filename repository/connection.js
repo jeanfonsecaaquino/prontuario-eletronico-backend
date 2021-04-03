@@ -80,10 +80,10 @@ const save = async (data, model) => {
 	const currentConnection = await getConnection();
 	return new Promise((resolve, reject) => {
 		const { stringQuery, translatedData } = model.bindCreate(data, model)
-		log.info(`Executing query save [${search}]`)
+		log.info(`Executing query save [${stringQuery}]`)
 		currentConnection.query(stringQuery, translatedData, (error, results) => {
 			if (error) {
-				log.info(`Error on Executing query [${search}]`, error)
+				log.info(`Error on Executing query [${stringQuery}]`, error)
 				return reject(error)
 			}
 			return resolve()

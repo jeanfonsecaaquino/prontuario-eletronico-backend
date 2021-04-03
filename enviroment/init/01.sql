@@ -11,6 +11,7 @@ CREATE TABLE PATIENT (
 CREATE TABLE ENCOUNTER (
     id int PRIMARY KEY AUTO_INCREMENT,
     id_patient int NOT NULL,
+    encounter_date DATE,
     FOREIGN KEY (id_patient) REFERENCES PATIENT(id)
 );
 
