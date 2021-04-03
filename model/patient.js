@@ -1,3 +1,7 @@
+const TABLE_NAME = "PATIENT"
+const { 
+    bindUpdate: baseBindUpdate, bindCreate: baseBindCreate } = require('./baseModel')
+
 /**
  * @typedef {Object} Patient
  * @param    {number} id 
@@ -55,17 +59,23 @@ const bind = (results) => {
  * @returns {Array<Patient>}
  */
  const bindUpdate = (id, patient) => {
-     var stringTemplate = 'UPDATE PATIENT SET '
-    const keys = Object.keys(patient)
-    const values = Object.values(patient)
-    const updatefields = keys.map( key =>`${key} = ?`)
-    const stringQuery = `${stringTemplate} ${updatefields.join(',')} WHERE id = ?`
-    values.push(id)
-    return { stringQuery, values }
+    return baseBindUpdate(id, patient, TABLE_NAME)
+}
+
+/**
+ * @param {Patient} data 
+ */
+const bindCreate = (data)=>{
+    const birthdate = new Date(data.birthdate)
+    const translatedData = { ...data, birthdate}
+    const stringQuery = baseBindCreate(TABLE_NAME)
+    return { stringQuery, translatedData }
 }
 
 module.exports = {
     patient,
     bind,
-    bindUpdate
+    bindUpdate,
+    bindCreate,
+    TABLE_NAME
 }

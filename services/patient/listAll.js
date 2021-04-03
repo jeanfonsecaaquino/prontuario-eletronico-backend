@@ -1,11 +1,11 @@
-const { searchAll } = require("../../repository/patient")
+const { searchRepository } = require("../../repository/patient")
 
 /**
  * 
  * @returns 
  */
 const execute = async ()=>{
-    return searchAll()
+    return searchRepository()
 }
 
 module.exports = {

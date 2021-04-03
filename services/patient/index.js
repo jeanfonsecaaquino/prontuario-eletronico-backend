@@ -1,7 +1,11 @@
-const listAll = require('./listAll')
-const edit = require('./edit')
+const listService = require('./listAll')
+const editService = require('./edit')
+const createService = require('./create')
+const removeService = require('./remove')
 
 module.exports = {
-    listAll,
-    edit
+    listService,
+    editService,
+    createService,
+    removeService
 }

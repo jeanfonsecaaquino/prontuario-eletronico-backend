@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
  * 
  * @returns import("mysql").Connection}
  */
- const getConnection = () => {
+const getConnection = () => {
 	return new Promise((resolve, reject) => {
 		if (connection.state !== 'disconnected') {
 			log.info(`Connected at ${connection.config.host}`)
@@ -55,12 +55,53 @@ const search = async (search, model) => {
  * @param {any} model 
  * @returns {Array<import('../model/patient').Patient>}
  */
- const update = async (id, data, model) => {
+const update = async (id, data, model) => {
 	const currentConnection = await getConnection();
 	return new Promise((resolve, reject) => {
-		const { stringQuery, values} = model.bindUpdate(id, data)
+		const { stringQuery, values } = model.bindUpdate(id, data)
 		log.info(`Executing query update [${search}]`)
 		currentConnection.query(stringQuery, values, (error) => {
+			if (error) {
+				log.info(`Error on Executing query [${search}]`, error)
+				return reject(error)
+			}
+			return resolve()
+		});
+	})
+}
+
+/**
+ * 
+ * @param {any} search 
+ * @param {any} model 
+ * @returns {Array<import('../model/patient').Patient>}
+ */
+const save = async (data, model) => {
+	const currentConnection = await getConnection();
+	return new Promise((resolve, reject) => {
+		const { stringQuery, translatedData } = model.bindCreate(data, model)
+		log.info(`Executing query save [${search}]`)
+		currentConnection.query(stringQuery, translatedData, (error, results) => {
+			if (error) {
+				log.info(`Error on Executing query [${search}]`, error)
+				return reject(error)
+			}
+			return resolve()
+		});
+	})
+}
+
+/**
+ * 
+ * @param {any} search 
+ * @param {any} model 
+ * @returns {Array<import('../model/patient').Patient>}
+ */
+ const remove = async (search, model) => {
+	const currentConnection = await getConnection();
+	return new Promise((resolve, reject) => {
+		log.info(`Executing query [${search}]`)
+		currentConnection.query(search, (error, results) => {
 			if (error) {
 				log.info(`Error on Executing query [${search}]`, error)
 				return reject(error)
@@ -73,5 +114,7 @@ const search = async (search, model) => {
 module.exports = {
 	getConnection,
 	search,
-	update
+	update,
+	save,
+	remove
 }

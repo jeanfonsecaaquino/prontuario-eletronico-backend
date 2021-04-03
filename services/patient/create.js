@@ -1,4 +1,4 @@
-const { editRepository } = require("../../repository/patient")
+const { createRepository } = require("../../repository/patient")
 
 /**
  * 
@@ -6,8 +6,8 @@ const { editRepository } = require("../../repository/patient")
  * @param {import('../../model/patient').Patient>}  patient 
  * @returns any
  */
-const execute = async (id, patient)=>{
-    return editRepository(id, patient)
+const execute = async (patient)=>{
+    return createRepository(patient)
 }
 
 module.exports = {

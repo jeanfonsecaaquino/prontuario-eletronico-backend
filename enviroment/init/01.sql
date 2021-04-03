@@ -1,11 +1,23 @@
 CREATE TABLE PATIENT (
-    id int,
+    id int PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(25),
     birthdate DATE,
     gender ENUM('M', 'F'),
     phone VARCHAR(11),
     weight INT,
     height FLOAT
+);
+
+CREATE TABLE ENCOUNTER (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    id_patient int NOT NULL,
+    FOREIGN KEY (id_patient) REFERENCES PATIENT(id)
+);
+
+CREATE TABLE OBSERVATION (
+    id int PRIMARY KEY AUTO_INCREMENT,
+    id_encounter int NOT NULL,
+    FOREIGN KEY (id_encounter) REFERENCES ENCOUNTER(id)
 );
 
 INSERT INTO PATIENT(id, name, birthdate, gender, phone, weight, height) VALUES

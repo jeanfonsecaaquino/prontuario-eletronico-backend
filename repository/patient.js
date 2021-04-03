@@ -1,9 +1,31 @@
-const { search, update } = require("../repository/connection")
+const { search, update, save, remove } = require("../repository/connection")
 const patient = require("../model/patient")
 
+/**
+ * @returns {Array<import('../model/patient').Patient>} 
+ */
+const searchRepository = ()=>{
+    return search(`SELECT * FROM ${patient.TABLE_NAME}`, patient)
+}
 
-const searchAll = ()=>{
-    return search('SELECT * FROM PATIENT', patient)
+/**
+ * 
+ * @param {number} id 
+ * @param {import('../model/patient').Patient}  patientData 
+ * @returns any
+ */
+const editRepository = (id, patientData)=>{
+    return update(id, patientData, patient)
+}
+
+/**
+ * 
+ * @param {number} id 
+ * @param {import('../model/patient').Patient}  patientData 
+ * @returns any
+ */
+ const removeRepository = (id)=>{
+    return remove(`DELETE FROM ${patient.TABLE_NAME} WHERE id = ${id}`, patient)
 }
 
 /**
@@ -12,11 +34,13 @@ const searchAll = ()=>{
  * @param {import('../model/patient').Patient>}  patient 
  * @returns any
  */
-const edit = (id, patientData)=>{
-    return update(id, patientData, patient)
+ const createRepository = (patientData)=>{
+    return save(patientData, patient)
 }
 
 module.exports = {
-    searchAll,
-    edit
+    searchRepository,
+    editRepository,
+    removeRepository,
+    createRepository
 }
