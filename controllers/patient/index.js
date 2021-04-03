@@ -1,5 +1,5 @@
 
-const { listAll, edit } = require('../../services/patient')
+const { listService, editService, createService, removeService } = require('../../services/patient')
 
 /**
  * 
@@ -7,9 +7,10 @@ const { listAll, edit } = require('../../services/patient')
  * @param {import("express").Response} res 
  * @param {import("express").NextFunction} next 
  */
-const listPatient = async (req, res, next) =>{
-    const data = await listAll.execute()
+const list = async (req, res, next) =>{
+    const data = await listService.execute()
     res.status(200).send(data)
+    return next()
 }
 
 /**
@@ -18,14 +19,43 @@ const listPatient = async (req, res, next) =>{
  * @param {import("express").Response} res 
  * @param {import("express").NextFunction} next 
  */
- const editPatient = async (req, res, next) =>{
+ const edit = async (req, res, next) =>{
     const { id } = req.params;
     const payload = req.body;
-    const data = await edit.execute(id, payload)
+    const data = await editService.execute(id, payload)
     res.status(200).send(data)
+    return next()
+}
+
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ */
+ const create = async (req, res, next) =>{
+    const payload = req.body;
+    const data = await createService.execute(payload)
+    res.status(200).send(data)
+    return next()
+}
+
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ */
+ const remove = async (req, res, next) =>{
+    const { id } = req.params;
+    const data = await removeService.execute(id)
+    res.status(200).send(data)
+    return next()
 }
 
 module.exports = {
-    listPatient,
-    editPatient
+    list,
+    edit,
+    create,
+    remove
 }
