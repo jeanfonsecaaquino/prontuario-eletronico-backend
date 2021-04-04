@@ -1,6 +1,5 @@
 
-const { listService, editService, createService, removeService, listByPatientService } = require('../../services/encounter')
-const log = require('../../util/log')
+const { listService, editService, createService, removeService, listByEncounterService } = require('../../services/observation')
 
 /**
  * 
@@ -9,7 +8,6 @@ const log = require('../../util/log')
  * @param {import("express").NextFunction} next 
  */
 const list = async (req, res, next) =>{
-    log.info('TESTE 1')
     const data = await listService.execute()
     res.status(200).send(data)
     return next()
@@ -21,10 +19,9 @@ const list = async (req, res, next) =>{
  * @param {import("express").Response} res 
  * @param {import("express").NextFunction} next 
  */
- const listByPatient = async (req, res, next) =>{
-    log.info('TESTE 2')
+ const listByEncounter = async (req, res, next) =>{
     const { id } = req.params;
-    const data = await listByPatientService.execute(id)
+    const data = await listByEncounterService.execute(id)
     res.status(200).send(data)
     return next()
 }
@@ -74,5 +71,5 @@ module.exports = {
     edit,
     create,
     remove,
-    listByPatient
+    listByEncounter
 }

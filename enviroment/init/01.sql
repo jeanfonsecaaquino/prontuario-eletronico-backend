@@ -17,7 +17,9 @@ CREATE TABLE ENCOUNTER (
 
 CREATE TABLE OBSERVATION (
     id int PRIMARY KEY AUTO_INCREMENT,
+    comment TEXT,
     id_encounter int NOT NULL,
+
     FOREIGN KEY (id_encounter) REFERENCES ENCOUNTER(id)
 );
 

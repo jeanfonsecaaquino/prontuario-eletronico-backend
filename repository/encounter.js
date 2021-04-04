@@ -37,9 +37,18 @@ const editRepository = (id, encounterData)=>{
     return save(encounterData, encounter)
 }
 
+/**
+ * @param {number} id
+ * @returns {Array<import('../model/encounter').Encounter>} 
+ */
+ const searchByPatient = (id)=>{
+    return search(`SELECT * FROM ${encounter.TABLE_NAME} WHERE id_patient = ${id}`, encounter)
+}
+
 module.exports = {
     searchRepository,
     editRepository,
     removeRepository,
-    createRepository
+    createRepository,
+    searchByPatient
 }

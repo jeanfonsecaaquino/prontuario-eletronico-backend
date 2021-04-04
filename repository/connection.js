@@ -74,7 +74,7 @@ const update = async (id, data, model) => {
  * 
  * @param {any} search 
  * @param {any} model 
- * @returns {Array<import('../model/patient').Patient>}
+ * @returns {Array<import('../model/observation').Observation>}
  */
 const save = async (data, model) => {
 	const currentConnection = await getConnection();
