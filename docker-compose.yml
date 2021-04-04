@@ -1,0 +1,22 @@
+version: '2'
+services:
+  app:
+    restart: always
+    image: pebmed/prontuario-eletronico-backend
+    ports:
+      - 3333
+    environment:
+      - NODE_ENV=staging
+    mem_limit: 512m
+  lb:
+    restart: always
+    image: dockercloud/haproxy
+    ports:
+      - 3333:80
+    links:
+      - app
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      MAXCONN: 20000
+    mem_limit: 128m
